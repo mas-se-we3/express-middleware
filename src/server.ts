@@ -28,11 +28,11 @@ app.get('/api/2', (req, res) => {
   res.sendStatus(204)
 })
 
-app.get('/api/scramble', scramble, (req, res) => {
+app.post('/api/scramble', scramble, (req, res) => {
   res.send(req.body)
 })
 
-app.get('/api/add', toNumbers, (req, res) => {
+app.post('/api/add', toNumbers, (req, res) => {
   const numbers: number[] = req.body.numbers
   res.send(numbers.reduce((sum, current) => current + sum, 0).toString())
 })
