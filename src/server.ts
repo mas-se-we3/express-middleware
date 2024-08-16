@@ -1,10 +1,10 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import { logging, loggingStartAndEnd, loggingWithOptions } from './logging'
+import { noNextLogging, resSendAndNext } from './bad'
+import { logging, loggingWithOptions } from './logging'
+import { requestTime } from './requestTime'
 import { scramble } from './scramble'
 import { toNumbers } from './toNumbers'
-import { requestTime } from './requestTime'
-import { noNextLogging, resSendAndNext } from './bad'
 
 const app = express()
 const port = 3003
