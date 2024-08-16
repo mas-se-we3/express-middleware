@@ -1,9 +1,10 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import { logging, loggingWithOptions } from './logging'
+import { logging, loggingStartAndEnd, loggingWithOptions } from './logging'
 import { scramble } from './scramble'
 import { toNumbers } from './toNumbers'
 import { requestTime } from './requestTime'
+import { noNextLogging, resSendAndNext } from './bad'
 
 const app = express()
 const port = 3003
@@ -35,6 +36,16 @@ app.post('/api/scramble', scramble, (req, res) => {
 app.post('/api/add', toNumbers, (req, res) => {
   const numbers: number[] = req.body.numbers
   res.send(numbers.reduce((sum, current) => current + sum, 0).toString())
+})
+
+// Request will stall forever, because the middleware never allows to reach the controller
+app.get('/bad/no-next', noNextLogging, (req, res) => {
+  res.sendStatus(204)
+})
+
+// Will throw error, because it's trying to send multiple times
+app.get('/bad/send-and-next', resSendAndNext, (req, res) => {
+  res.sendStatus(204)
 })
 
 app.listen(port, () => {
